@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.Wordprocessing;
+
 
 namespace Console_AutoText
 {
@@ -10,6 +14,7 @@ namespace Console_AutoText
     {
         static void Main(string[] args)
         {
+           AutoText.DisplayInnerXML("Jeremy Singer");
         }
     }
 }
