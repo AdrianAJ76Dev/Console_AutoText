@@ -31,7 +31,8 @@ namespace Console_AutoText
          */
         public static void DisplayInnerXML(string AutoTextName)
         {
-           string templatefullname = @"C:\Users\ajones\Documents\Automation\Prototypes\Sole Source Letter\Templates\Sole Source Letter v4.dotx";
+            string relid;
+            string templatefullname = @"C:\Users\ajones\Documents\Automation\Prototypes\Sole Source Letter\Templates\Sole Source Letter v4.dotx";
             using (WordprocessingDocument wrdTemplate = WordprocessingDocument.Open(templatefullname, false))
             {
                 MainDocumentPart mdpTemplate = wrdTemplate.MainDocumentPart;
@@ -50,12 +51,17 @@ namespace Console_AutoText
                     if (dr != null)
                     {
                         Console.WriteLine("Drawing InnerXML = {0}", dr.InnerXml);
-                        string relid = dr.Descendants<Blip>().FirstOrDefault().Embed;
+                        relid = dr.Descendants<Blip>().FirstOrDefault().Embed;
                         Console.WriteLine("Relationship ID = {0}", relid);
+
+                        var ImagePartandRel = from x in mdpTemplate.Parts
+                                              where x.RelationshipId == relid
+                                              select x;
                     }
                 }
 
                 Console.ReadLine();
+
             }
         }
     }
