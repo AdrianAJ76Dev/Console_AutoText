@@ -14,7 +14,8 @@ namespace Console_AutoText
     {
         static void Main(string[] args)
         {
-           AutoText.DisplayInnerXML("Jeremy Singer");
+            AutoText.SimpleWordDoc_Create();
+           //AutoText.DisplayInnerXML("Jeremy Singer");
         }
     }
 }
