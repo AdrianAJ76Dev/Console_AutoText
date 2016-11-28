@@ -31,7 +31,7 @@ namespace Console_AutoText
          */
         public static void DisplayInnerXML(string AutoTextName)
         {
-            string relid;
+            string relid=null;
             string templatefullname = @"C:\Users\ajones\Documents\Automation\Prototypes\Sole Source Letter\Templates\Sole Source Letter v4.dotx";
             using (WordprocessingDocument wrdTemplate = WordprocessingDocument.Open(templatefullname, false))
             {
@@ -50,17 +50,29 @@ namespace Console_AutoText
                     Drawing dr = docsubpart.Descendants<Drawing>().FirstOrDefault();
                     if (dr != null)
                     {
-                        Console.WriteLine("Drawing InnerXML = {0}", dr.InnerXml);
-                        relid = dr.Descendants<Blip>().FirstOrDefault().Embed;
+                        relid = dr.Descendants<Blip>().FirstOrDefault().Embed.Value;
                         Console.WriteLine("Relationship ID = {0}", relid);
 
-                        var ImagePartandRel = from x in mdpTemplate.Parts
-                                              where x.RelationshipId == relid
-                                              select x;
+                        //var ImagePartandRel = from x in mdpTemplate.Parts
+                        //                      where x.RelationshipId == relid
+                        //                      select x;
                     }
                 }
 
+                // this code means nothing because the relid, Relationship ID is for the Glossary Part 
+                // and won't be the SAME in the actual template OR the new document
+                Console.WriteLine("Uri = {0}",mdpTemplate.GetPartById(relid).Uri);
                 Console.ReadLine();
+
+                /* How do I retrieve an image part from the glossary document?
+                 * What does that look like in code and as xml?
+                 * How do I replace the current Image Part AND the run with Autotext?
+                 * Ideally it's:
+                 * 1. get DocPart from Glossary
+                 * 2. Insert it into new document
+                 * 3. Get relationship of Image saved with the DocPart
+                 * 4. Replace (or add) the new relationship 
+                 */
 
             }
         }
