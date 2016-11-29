@@ -32,13 +32,74 @@ namespace Console_AutoText
 
         public static void SimpleWordDoc_Create()
         {
-            using (WordprocessingDocument NewSimpleDoc = WordprocessingDocument.Create(@"C:\Users\ajones\Documents\Automation\Prototypes\Sole Source Letter\Documents Generated\CB New Simple Document.docx", WordprocessingDocumentType.Document))
+            //string simpledocumentfullname = @"C:\Users\ajones\Documents\Automation\Prototypes\Sole Source Letter\Documents Generated\CB New Simple Document.docx"
+            string simpledocumentfullnameHome = @"C:\Users\ajones\Documents\Visual Studio 2015\Operation Kyuzo\Prototypes and Study\Documents Generated\CB New Simple Document.docx";
+            //using (WordprocessingDocument NewSimpleDoc = WordprocessingDocument.Create(simpledocumentfullname, WordprocessingDocumentType.Document))
+            using (WordprocessingDocument NewSimpleDoc = WordprocessingDocument.Create(simpledocumentfullnameHome, WordprocessingDocumentType.Document))
             {
                 MainDocumentPart mdpNewSimpleDoc = NewSimpleDoc.AddMainDocumentPart();
                 mdpNewSimpleDoc.Document = new W.Document(new W.Body(new W.Paragraph(new W.Run(new W.Text()))));
 
                 /* Adding image part now */
-                mdpNewSimpleDoc.AddImagePart(ImagePartType.Png);
+                mdpNewSimpleDoc.AddImagePart(ImagePartType.Png, "rId7");
+                mdpNewSimpleDoc.AddImagePart(ImagePartType.Png, "rId8");
+            }
+            Console.WriteLine("Done creating the document");
+        }
+
+        public static void DisplayImagePartsfromTemplate()
+        {
+            string TemplateName = @"C:\Users\ajones\Documents\Visual Studio 2015\Operation Kyuzo\Prototypes and Study\Templates\SoleSourceLetter v54.dotx";
+            using (WordprocessingDocument wrdTemplate = WordprocessingDocument.Open(TemplateName, false))
+            {
+                MainDocumentPart mdpTemplate = wrdTemplate.MainDocumentPart;
+                foreach (IdPartPair mdpPart in mdpTemplate.Parts)
+                {
+                    Console.WriteLine("RelationshipID:\t{0}", mdpPart.RelationshipId);
+                    Console.WriteLine("OpenXML Part:\t{0}", mdpPart.OpenXmlPart.GetType().Name);
+                    Console.WriteLine("Uri:\t\t{0}", mdpPart.OpenXmlPart.Uri);
+                    Console.WriteLine("gpart To String {0}", mdpPart.ToString());
+                    Console.WriteLine();
+                }
+
+                /*
+                imagecount = mdpTemplate.ImageParts.Count();
+                Console.WriteLine("Image Parts count = {0}", imagecount);
+                foreach (var image in mdpTemplate.ImageParts)
+                {
+                    Console.WriteLine("Uri = {0}", image.Uri);
+                    Console.WriteLine("RelationshipType = {0}",image.RelationshipType);
+                }
+                Console.WriteLine("{0}, Done displaying the image files found in the main document part", imagecount);
+                Console.WriteLine();
+                Console.WriteLine();
+                */
+                if (wrdTemplate.MainDocumentPart.GetPartsOfType<GlossaryDocumentPart>().Count() > 0)
+                {
+                    GlossaryDocumentPart gp = wrdTemplate.MainDocumentPart.GlossaryDocumentPart;
+                    /*
+                    imagecount = gp.ImageParts.Count();
+                    foreach (ImagePart image in gp.ImageParts)
+                    {
+                        Console.WriteLine("Uri = {0}", image.Uri);
+                        Console.WriteLine("RelationshipType = {0}",image.RelationshipType);
+                        Console.WriteLine(image);
+                        Console.WriteLine();
+                    }
+                    Console.WriteLine("{0}, Done displaying the image files found in the Glossary Parts document", imagecount);
+                    Console.WriteLine();
+                    Console.WriteLine(gp.Parts.Count());
+                    */
+
+                    foreach (IdPartPair gpart in gp.Parts)
+                    {
+                        Console.WriteLine("RelationshipID:\t{0}", gpart.RelationshipId);
+                        Console.WriteLine("OpenXML Part:\t{0}", gpart.OpenXmlPart.GetType().Name);
+                        Console.WriteLine("Uri:\t\t{0}", gpart.OpenXmlPart.Uri);
+                        Console.WriteLine("gpart To String {0}",gpart.ToString());
+                        Console.WriteLine();
+                    }
+                }
             }
         }
 
