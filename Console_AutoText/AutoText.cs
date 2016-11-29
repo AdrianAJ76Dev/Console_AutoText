@@ -53,15 +53,17 @@ namespace Console_AutoText
             using (WordprocessingDocument wrdTemplate = WordprocessingDocument.Open(TemplateName, false))
             {
                 MainDocumentPart mdpTemplate = wrdTemplate.MainDocumentPart;
+                Console.WriteLine("Template main document part parts count {0}", mdpTemplate.Parts.Count());
+                Console.WriteLine("*************************************************************************");
                 foreach (IdPartPair mdpPart in mdpTemplate.Parts)
                 {
                     Console.WriteLine("RelationshipID:\t{0}", mdpPart.RelationshipId);
                     Console.WriteLine("OpenXML Part:\t{0}", mdpPart.OpenXmlPart.GetType().Name);
                     Console.WriteLine("Uri:\t\t{0}", mdpPart.OpenXmlPart.Uri);
-                    Console.WriteLine("gpart To String {0}", mdpPart.ToString());
                     Console.WriteLine();
                 }
-
+                Console.WriteLine("*************************************************************************");
+                Console.ReadLine();
                 /*
                 imagecount = mdpTemplate.ImageParts.Count();
                 Console.WriteLine("Image Parts count = {0}", imagecount);
@@ -76,6 +78,8 @@ namespace Console_AutoText
                 */
                 if (wrdTemplate.MainDocumentPart.GetPartsOfType<GlossaryDocumentPart>().Count() > 0)
                 {
+                    Console.WriteLine("Template Glossary document parts count {0}", mdpTemplate.Parts.Count());
+                    Console.WriteLine("*************************************************************************");
                     GlossaryDocumentPart gp = wrdTemplate.MainDocumentPart.GlossaryDocumentPart;
                     /*
                     imagecount = gp.ImageParts.Count();
@@ -96,9 +100,9 @@ namespace Console_AutoText
                         Console.WriteLine("RelationshipID:\t{0}", gpart.RelationshipId);
                         Console.WriteLine("OpenXML Part:\t{0}", gpart.OpenXmlPart.GetType().Name);
                         Console.WriteLine("Uri:\t\t{0}", gpart.OpenXmlPart.Uri);
-                        Console.WriteLine("gpart To String {0}",gpart.ToString());
                         Console.WriteLine();
                     }
+                    Console.WriteLine("*************************************************************************");
                 }
             }
         }
